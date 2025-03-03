@@ -3,17 +3,17 @@ name: Deploy via SSH
 on:
   workflow_call:
     inputs:
-      ssh_user:
+      SSH_USER:
         required: true
         type: string
-      ssh_host:
+      SSH_HOST:
         required: true
         type: string
-      deploy_script:
+      DEPLOY_SCRIPT:
         required: true
         type: string
     secrets:
-      ssh_private_key:
+      SSH_PRIVATE_KEY:
         required: true
 
 jobs:
@@ -23,12 +23,12 @@ jobs:
       - name: Install SSH Client
         run: sudo apt-get install -y openssh-client
 
-      - name: Set up SSH Key
-        run: |
-          mkdir -p ~/.ssh
-          echo "${{ secrets.ssh_private_key }}" | tr -d '\r' > ~/.ssh/id_rsa
-          chmod 600 ~/.ssh/id_rsa
-          ssh-keyscan -H ${{ inputs.ssh_host }} >> ~/.ssh/known_hosts
-
-      - name: Deploy via SSH
-        run: ssh -o StrictHostKeyChecking=no ${{ inputs.ssh_user }}@${{ inputs.ssh_host }} "${{ inputs.deploy_script }}"
+#      - name: Set up SSH Key
+#        run: |
+#          mkdir -p ~/.ssh
+#          echo "${{ secrets.SSH_PRIVATE_KEY }}" | tr -d '\r' > ~/.ssh/id_rsa
+#          chmod 600 ~/.ssh/id_rsa
+#          ssh-keyscan -H ${{ inputs.SSH_HOST }} >> ~/.ssh/known_hosts
+#
+#      - name: Deploy via SSH
+#        run: ssh -o StrictHostKeyChecking=no ${{ inputs.SSH_USER }}@${{ inputs.SSH_HOST }} "${{ inputs.DEPLOY_SCRIPT }}"
