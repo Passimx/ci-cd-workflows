@@ -3,14 +3,14 @@ name: Release Docker Image
 on:
   workflow_call:
     inputs:
-      organization_name:
+      ORGANIZATION_NAME:
         required: true
         type: string
-      image_name:
+      IMAGE_NAME:
         required: true
         type: string
     secrets:
-      docker_token:
+      DOCKER_TOKEN:
         required: true
 
 jobs:
@@ -25,10 +25,10 @@ jobs:
         run: echo "VERSION=$(jq -r .version package.json)" >> "$GITHUB_ENV"
 
       - name: Log in to Docker Hub
-        run: echo "${{ secrets.docker_token }}" | docker login -u "${{ inputs.organization_name }}" --password-stdin
+        run: echo "${{ secrets.DOCKER_TOKEN }}" | docker login -u "${{ inputs.ORGANIZATION_NAME }}" --password-stdin
 
       - name: Pull, Tag, and Push Latest Image
         run: |
-          docker pull ${{ inputs.organization_name }}/${{ inputs.image_name }}:$VERSION
-          docker tag ${{ inputs.organization_name }}/${{ inputs.image_name }}:$VERSION ${{ inputs.organization_name }}/${{ inputs.image_name }}:latest
-          docker push ${{ inputs.organization_name }}/${{ inputs.image_name }}:latest
+          docker pull ${{ inputs.ORGANIZATION_NAME }}/${{ inputs.IMAGE_NAME }}:$VERSION
+          docker tag ${{ inputs.ORGANIZATION_NAME }}/${{ inputs.IMAGE_NAME }}:$VERSION ${{ inputs.ORGANIZATION_NAME }}/${{ inputs.IMAGE_NAME }}:latest
+          docker push ${{ inputs.ORGANIZATION_NAME }}/${{ inputs.IMAGE_NAME }}:latest
