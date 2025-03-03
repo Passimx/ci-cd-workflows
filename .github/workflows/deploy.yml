@@ -25,12 +25,7 @@ jobs:
           echo "${{ secrets.SSH_PRIVATE_KEY }}" | tr -d '\r' > ~/.ssh/id_rsa
           chmod 600 ~/.ssh/id_rsa
           ls -la ~/.ssh
-          cat ~/.ssh/id_rsa | head -n 2  # Проверим начало ключа
           ssh-keyscan -H ${{ secrets.SSH_HOST }} >> ~/.ssh/known_hosts
-          cat ~/.ssh/known_hosts  # Проверим содержимое known_hosts
-
-      - name: Test SSH Connection
-        run: ssh -v -i ~/.ssh/id_rsa ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }} "echo 'SSH connected!'"
 
       - name: Deploy via SSH
         run: ssh -i ~/.ssh/id_rsa ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }} "${{ secrets.DEPLOY_SCRIPT }}"
