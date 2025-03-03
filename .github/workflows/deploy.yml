@@ -3,17 +3,14 @@ name: Deploy via SSH
 on:
   workflow_call:
     inputs:
-      SSH_USER:
-        required: true
-        type: string
-      SSH_HOST:
-        required: true
-        type: string
-      DEPLOY_SCRIPT:
-        required: true
-        type: string
     secrets:
       SSH_PRIVATE_KEY:
+        required: true
+      SSH_USER:
+        required: true
+      SSH_HOST:
+        required: true
+      DEPLOY_SCRIPT:
         required: true
 
 jobs:
