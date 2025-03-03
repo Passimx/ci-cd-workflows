@@ -3,10 +3,17 @@ name: Build Docker Image
 on:
   workflow_call:
     inputs:
-      image_name:
+      ORGANIZATION_NAME:
+        description: "Docker Hub Organization"
+        required: true
+        type: string
+      IMAGE_NAME:
         description: "Docker Image Name"
         required: true
         type: string
+    secrets:
+      DOCKER_TOKEN:
+        required: true
 
 jobs:
   build:
@@ -20,9 +27,9 @@ jobs:
         run: echo "VERSION=$(jq -r .version package.json)" >> "$GITHUB_ENV"
 
       - name: Log in to Docker Hub
-        run: echo "${{ secrets.DOCKER_HUB_TOKEN }}" | docker login -u "${{ vars.ORGANIZATION_NAME }}" --password-stdin
+        run: echo "${{ secrets.DOCKER_TOKEN }}" | docker login -u "${{ inputs.ORGANIZATION_NAME }}" --password-stdin
 
       - name: Build and Push Docker Image
         run: |
-          docker build . -t ${{ vars.ORGANIZATION_NAME }}/${{ inputs.image_name }}:$VERSION --pull 
-          docker push ${{ vars.ORGANIZATION_NAME }}/${{ inputs.image_name }}:$VERSION
+          docker build . -t ${{ vars.ORGANIZATION_NAME }}/${{ inputs.IMAGE_NAME }}:$VERSION --pull 
+          docker push ${{ vars.ORGANIZATION_NAME }}/${{ inputs.IMAGE_NAME }}:$VERSION
