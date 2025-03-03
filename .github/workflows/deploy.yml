@@ -23,12 +23,12 @@ jobs:
       - name: Install SSH Client
         run: sudo apt-get install -y openssh-client
 
-#      - name: Set up SSH Key
-#        run: |
-#          mkdir -p ~/.ssh
-#          echo "${{ secrets.SSH_PRIVATE_KEY }}" | tr -d '\r' > ~/.ssh/id_rsa
-#          chmod 600 ~/.ssh/id_rsa
-#          ssh-keyscan -H ${{ inputs.SSH_HOST }} >> ~/.ssh/known_hosts
-#
-#      - name: Deploy via SSH
-#        run: ssh -o StrictHostKeyChecking=no ${{ inputs.SSH_USER }}@${{ inputs.SSH_HOST }} "${{ inputs.DEPLOY_SCRIPT }}"
+      - name: Set up SSH Key
+        run: |
+          mkdir -p ~/.ssh
+          echo "${{ secrets.SSH_PRIVATE_KEY }}" | tr -d '\r' > ~/.ssh/id_rsa
+          chmod 600 ~/.ssh/id_rsa
+          ssh-keyscan -H ${{ secrets.SSH_HOST }} >> ~/.ssh/known_hosts
+
+      - name: Deploy via SSH
+        run: ssh -o StrictHostKeyChecking=no ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }} "${{ secrets.DEPLOY_SCRIPT }}"
