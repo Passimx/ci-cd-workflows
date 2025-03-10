@@ -35,6 +35,7 @@ jobs:
 
       - name: Build and Push Docker Image
         run: |
+          echo VITE_CHATS_SERVICE_URL
           docker build . \
             --build-arg VITE_CHATS_SERVICE_URL=${{ inputs.VITE_CHATS_SERVICE_URL }} \
             -t ${{ vars.ORGANIZATION_NAME }}/${{ inputs.IMAGE_NAME }}:$VERSION --pull 
