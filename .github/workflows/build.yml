@@ -11,6 +11,10 @@ on:
         description: "Docker Image Name"
         required: true
         type: string
+      VITE_CHATS_SERVICE_URL:
+        description: "API url"
+        required: false
+        type: string
     secrets:
       DOCKER_TOKEN:
         required: true
