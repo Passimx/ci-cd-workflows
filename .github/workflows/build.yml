@@ -15,6 +15,10 @@ on:
         description: "API url"
         required: false
         type: string
+      VITE_FILES_SERVICE_URL:
+        description: "API url"
+        required: false
+        type: string
       VITE_NOTIFICATIONS_SERVICE_URL:
         description: "API url"
         required: false
@@ -41,6 +45,7 @@ jobs:
         run: |
           docker build . \
             --build-arg VITE_CHATS_SERVICE_URL=${{ inputs.VITE_CHATS_SERVICE_URL }} \
+            --build-arg VITE_FILES_SERVICE_URL=${{ inputs.VITE_FILES_SERVICE_URL }} \
             --build-arg VITE_NOTIFICATIONS_SERVICE_URL=${{ inputs.VITE_NOTIFICATIONS_SERVICE_URL }} \
             -t ${{ vars.ORGANIZATION_NAME }}/${{ inputs.IMAGE_NAME }}:$VERSION --pull 
           docker push ${{ vars.ORGANIZATION_NAME }}/${{ inputs.IMAGE_NAME }}:$VERSION
