@@ -23,6 +23,10 @@ on:
         description: "API url"
         required: false
         type: string
+      ENVIRONMENT:
+        description: "Environment"
+        required: false
+        type: string
     secrets:
       DOCKER_TOKEN:
         required: true
@@ -47,5 +51,6 @@ jobs:
             --build-arg VITE_CHATS_SERVICE_URL=${{ inputs.VITE_CHATS_SERVICE_URL }} \
             --build-arg VITE_FILES_SERVICE_URL=${{ inputs.VITE_FILES_SERVICE_URL }} \
             --build-arg VITE_NOTIFICATIONS_SERVICE_URL=${{ inputs.VITE_NOTIFICATIONS_SERVICE_URL }} \
+            --build-arg ENVIRONMENT=${{ github.ref_name == 'main' && 'production' || 'staging' }} \
             -t ${{ vars.ORGANIZATION_NAME }}/${{ inputs.IMAGE_NAME }}:$VERSION --pull 
           docker push ${{ vars.ORGANIZATION_NAME }}/${{ inputs.IMAGE_NAME }}:$VERSION
