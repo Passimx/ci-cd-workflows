@@ -12,10 +12,15 @@ on:
     secrets:
       DOCKER_TOKEN:
         required: true
+      GITHUB_TOKEN:
+        required: true
 
 jobs:
   release:
     runs-on: ubuntu-latest
+    permissions:
+      packages: write
+      contents: read
     steps:
       - name: Checkout Code
         uses: actions/checkout@v3
@@ -27,8 +32,19 @@ jobs:
       - name: Log in to Docker Hub
         run: echo "${{ secrets.DOCKER_TOKEN }}" | docker login -u "${{ inputs.ORGANIZATION_NAME }}" --password-stdin
 
+      - name: Log in to GitHub Container Registry (GHCR)
+        uses: docker/login-action@v3
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
       - name: Pull, Tag, and Push Latest Image
         run: |
-          docker pull ${{ inputs.ORGANIZATION_NAME }}/${{ inputs.IMAGE_NAME }}:$VERSION
-          docker tag ${{ inputs.ORGANIZATION_NAME }}/${{ inputs.IMAGE_NAME }}:$VERSION ${{ inputs.ORGANIZATION_NAME }}/${{ inputs.IMAGE_NAME }}:latest
-          docker push ${{ inputs.ORGANIZATION_NAME }}/${{ inputs.IMAGE_NAME }}:latest
+          DOCKERHUB_BASE=${{ inputs.ORGANIZATION_NAME }}/${{ inputs.IMAGE_NAME }}
+          GHCR_BASE=ghcr.io/${{ inputs.ORGANIZATION_NAME }}/${{ inputs.IMAGE_NAME }}
+          docker pull $DOCKERHUB_BASE:$VERSION
+          docker tag $DOCKERHUB_BASE:$VERSION $DOCKERHUB_BASE:latest
+          docker tag $DOCKERHUB_BASE:$VERSION $GHCR_BASE:latest
+          docker push $DOCKERHUB_BASE:latest
+          docker push $GHCR_BASE:latest
