@@ -46,5 +46,5 @@ jobs:
           docker pull $DOCKERHUB_BASE:$VERSION
           docker tag $DOCKERHUB_BASE:$VERSION $DOCKERHUB_BASE:latest
           docker tag $DOCKERHUB_BASE:$VERSION $GHCR_BASE:latest
-          docker push $DOCKERHUB_BASE:latest
           docker push $GHCR_BASE:latest
+          docker push $DOCKERHUB_BASE:latest

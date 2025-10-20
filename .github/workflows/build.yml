@@ -67,5 +67,5 @@ jobs:
             --build-arg VITE_NOTIFICATIONS_SERVICE_URL=${{ inputs.VITE_NOTIFICATIONS_SERVICE_URL }} \
             --build-arg ENVIRONMENT=${{ github.ref_name == 'release' && 'production' || 'staging' }} \
             -t $DOCKERHUB_TAG -t $GHCR_TAG --pull 
-          docker push $DOCKERHUB_TAG
           docker push $GHCR_TAG
+          docker push $DOCKERHUB_TAG
