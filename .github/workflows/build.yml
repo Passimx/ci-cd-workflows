@@ -32,6 +32,10 @@ on:
         required: true
       GIT_HUB_TOKEN:
         required: true
+      GPG_PRIVATE_KEY:
+        required: true
+      GPG_PASSPHRASE:
+        required: true
 
 jobs:
   build:
@@ -65,6 +69,8 @@ jobs:
             --build-arg VITE_CHATS_SERVICE_URL=${{ inputs.VITE_CHATS_SERVICE_URL }} \
             --build-arg VITE_FILES_SERVICE_URL=${{ inputs.VITE_FILES_SERVICE_URL }} \
             --build-arg VITE_NOTIFICATIONS_SERVICE_URL=${{ inputs.VITE_NOTIFICATIONS_SERVICE_URL }} \
+            --build-arg GPG_PRIVATE_KEY=${{ inputs.GPG_PRIVATE_KEY }} \
+            --build-arg GPG_PASSPHRASE=${{ inputs.GPG_PASSPHRASE }} \
             --build-arg ENVIRONMENT=${{ github.ref_name == 'release' && 'production' || 'staging' }} \
             -t $DOCKERHUB_TAG -t $GHCR_TAG --pull 
           docker push $GHCR_TAG
