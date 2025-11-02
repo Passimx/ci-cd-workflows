@@ -32,6 +32,10 @@ on:
         required: true
       GIT_HUB_TOKEN:
         required: true
+      GPG_PRIVATE_KEY:
+        required: true
+      GPG_PASSPHRASE:
+        required: true
 
 jobs:
   build:
@@ -73,8 +77,8 @@ jobs:
 
       - name: Verify & Sign build
         run: |
-          echo "$GPG_PRIVATE_KEY" | gpg --batch --import
+          echo "${{ secrets.GIT_HUB_TOKEN }}" | gpg --batch --import
           tar -czf dist.tar.gz dist/
           shasum -a 256 dist.tar.gz > dist.sha256
-          gpg --batch --pinentry-mode loopback --passphrase "$GPG_PASSPHRASE" --armor --sign dist.sha256
+          gpg --batch --pinentry-mode loopback --passphrase "${{ secrets.GPG_PASSPHRASE }}" --armor --sign dist.sha256
 
