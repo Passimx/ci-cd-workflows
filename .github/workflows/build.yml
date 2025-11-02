@@ -69,3 +69,12 @@ jobs:
             -t $DOCKERHUB_TAG -t $GHCR_TAG --pull 
           docker push $GHCR_TAG
           docker push $DOCKERHUB_TAG
+          
+
+      - name: Verify & Sign build
+        run: |
+          echo "$GPG_PRIVATE_KEY" | gpg --batch --import
+          tar -czf dist.tar.gz dist/
+          shasum -a 256 dist.tar.gz > dist.sha256
+          gpg --batch --pinentry-mode loopback --passphrase "$GPG_PASSPHRASE" --armor --sign dist.sha256
+
