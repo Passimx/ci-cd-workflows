@@ -33,9 +33,9 @@ on:
       GIT_HUB_TOKEN:
         required: true
       GPG_PRIVATE_KEY:
-        required: true
+        required: false
       GPG_PASSPHRASE:
-        required: true
+        required: false
 
 jobs:
   build:
