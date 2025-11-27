@@ -25,6 +25,10 @@ jobs:
       - name: Checkout Code
         uses: actions/checkout@v3
 
+      - name: Read version from package.json
+        id: package-version
+        run: echo "VERSION=$(jq -r .version package.json)" >> "$GITHUB_ENV"
+
       - name: Log in to Docker Hub
         run: echo "${{ secrets.DOCKER_TOKEN }}" | docker login -u "${{ inputs.ORGANIZATION_NAME }}" --password-stdin
 
@@ -37,7 +41,6 @@ jobs:
 
       - name: Pull, Tag, and Push Latest Image
         run: |
-          VERSION=${{ needs.version.outputs.release_version }}
           DOCKERHUB_BASE=${{ inputs.ORGANIZATION_NAME }}/${{ inputs.IMAGE_NAME }}
           GHCR_BASE=ghcr.io/${{ inputs.ORGANIZATION_NAME }}/${{ inputs.IMAGE_NAME }}
           docker pull $DOCKERHUB_BASE:$VERSION
