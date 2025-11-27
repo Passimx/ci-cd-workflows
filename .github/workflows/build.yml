@@ -11,12 +11,12 @@ on:
         description: "Docker Image Name"
         required: true
         type: string
+      VERSION:
+        description: "App version"
+        required: true
+        type: string
       VITE_API_URL:
         description: "API url"
-        required: false
-        type: string
-      ENVIRONMENT:
-        description: "Environment"
         required: false
         type: string
     secrets:
@@ -39,10 +39,6 @@ jobs:
       - name: Checkout Code
         uses: actions/checkout@v3
 
-      - name: Read version from package.json
-        id: package-version
-        run: echo "VERSION=$(jq -r .version package.json)" >> "$GITHUB_ENV"
-
       - name: Log in to Docker Hub
         run: echo "${{ secrets.DOCKER_TOKEN }}" | docker login -u "${{ inputs.ORGANIZATION_NAME }}" --password-stdin
 
@@ -55,8 +51,8 @@ jobs:
 
       - name: Build and Push Docker Image
         run: |
-          DOCKERHUB_TAG=${{ inputs.ORGANIZATION_NAME }}/${{ inputs.IMAGE_NAME }}:$VERSION
-          GHCR_TAG=ghcr.io/${{ inputs.ORGANIZATION_NAME }}/${{ inputs.IMAGE_NAME }}:$VERSION
+          DOCKERHUB_TAG=${{ inputs.ORGANIZATION_NAME }}/${{ inputs.IMAGE_NAME }}:${{ inputs.VERSION }}
+          GHCR_TAG=ghcr.io/${{ inputs.ORGANIZATION_NAME }}/${{ inputs.IMAGE_NAME }}:${{ inputs.VERSION }}
           docker build . \
             --build-arg VITE_API_URL=${{ inputs.VITE_API_URL }} \
             --build-arg GPG_PRIVATE_KEY="${{ secrets.GPG_PRIVATE_KEY }}" \
