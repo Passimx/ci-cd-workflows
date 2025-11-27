@@ -11,10 +11,6 @@ on:
         description: "Docker Image Name"
         required: true
         type: string
-      VERSION:
-        description: "App version"
-        required: true
-        type: string
       VITE_API_URL:
         description: "API url"
         required: false
@@ -51,6 +47,7 @@ jobs:
 
       - name: Build and Push Docker Image
         run: |
+          VERSION=${{ needs.version.outputs.release_version }}
           DOCKERHUB_TAG=${{ inputs.ORGANIZATION_NAME }}/${{ inputs.IMAGE_NAME }}:${{ inputs.VERSION }}
           GHCR_TAG=ghcr.io/${{ inputs.ORGANIZATION_NAME }}/${{ inputs.IMAGE_NAME }}:${{ inputs.VERSION }}
           docker build . \
