@@ -9,10 +9,6 @@ on:
       IMAGE_NAME:
         required: true
         type: string
-      VERSION:
-        description: "App version"
-        required: true
-        type: string
     secrets:
       DOCKER_TOKEN:
         required: true
@@ -41,6 +37,7 @@ jobs:
 
       - name: Pull, Tag, and Push Latest Image
         run: |
+          VERSION=${{ needs.version.outputs.release_version }}
           DOCKERHUB_BASE=${{ inputs.ORGANIZATION_NAME }}/${{ inputs.IMAGE_NAME }}
           GHCR_BASE=ghcr.io/${{ inputs.ORGANIZATION_NAME }}/${{ inputs.IMAGE_NAME }}
           docker pull $DOCKERHUB_BASE:$VERSION
