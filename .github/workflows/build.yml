@@ -72,27 +72,3 @@ jobs:
           docker push $DOCKERHUB_TAG
           docker push DOCKERHUB_DEV_TAG
           docker push GHCR_DEV_TAG
-
-
-
-#
-#      - name: Build Docker Image
-#        run: |
-#          docker build . \
-#            --build-arg VITE_API_URL=${{ inputs.VITE_API_URL }} \
-#            --build-arg GPG_PRIVATE_KEY="${{ secrets.GPG_PRIVATE_KEY }}" \
-#            --build-arg GPG_PASSPHRASE="${{ secrets.GPG_PASSPHRASE }}" \
-#            --build-arg ENVIRONMENT=${{ github.ref_name == 'release' && 'production' || 'staging' }} \
-#      #            -t $DOCKERHUB_TAG -t $GHCR_TAG --pull
-#
-#      - name: Push Docker Image
-#        run: |
-#          DOCKERHUB_TAG=${{ inputs.ORGANIZATION_NAME }}/${{ inputs.IMAGE_NAME }}:$VERSION
-#          GHCR_TAG=ghcr.io/${{ inputs.ORGANIZATION_NAME }}/${{ inputs.IMAGE_NAME }}:$VERSION
-#          DOCKERHUB_DEV_TAG=${{ inputs.ORGANIZATION_NAME }}/${{ inputs.IMAGE_NAME }}:dev
-#          GHCR_DEV_TAG=ghcr.io/${{ inputs.ORGANIZATION_NAME }}/${{ inputs.IMAGE_NAME }}:dev
-#
-#          docker push $GHCR_TAG
-#          docker push $DOCKERHUB_TAG
-#          docker push DOCKERHUB_DEV_TAG
-#          docker push GHCR_DEV_TAG
