@@ -63,7 +63,7 @@ jobs:
             --build-arg GPG_PRIVATE_KEY="${{ secrets.GPG_PRIVATE_KEY }}" \
             --build-arg GPG_PASSPHRASE="${{ secrets.GPG_PASSPHRASE }}" \
             --build-arg ENVIRONMENT=${{ github.ref_name == 'release' && 'production' || 'staging' }} \
-            -t $DOCKERHUB_TAG -t $GHCR_TAG --pull
+#            -t $DOCKERHUB_TAG -t $GHCR_TAG --pull
 
       - name: Push Docker Image
         run: |
