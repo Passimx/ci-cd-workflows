@@ -32,6 +32,12 @@ jobs:
       - name: Set version
         run: echo "VERSION=${{ inputs.VERSION }}" >> "$GITHUB_ENV"
 
+      - name: Log version
+        run: echo "$VERSION"
+
+      - name: Log version
+        run: echo "${{ inputs.VERSION }}"
+
       - name: Log in to Docker Hub
         run: echo "${{ secrets.DOCKER_TOKEN }}" | docker login -u "${{ inputs.ORGANIZATION_NAME }}" --password-stdin
 
