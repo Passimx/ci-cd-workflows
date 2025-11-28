@@ -43,8 +43,8 @@ jobs:
       - name: Checkout Code
         uses: actions/checkout@v3
 
-      - name: Set version
-        id: package-version
+      - name: Set version.yml
+        id: package-version.yml
         run: echo "VERSION=${{ inputs.VERSION }}" >> "$GITHUB_ENV"
 
       - name: Log in to Docker Hub
