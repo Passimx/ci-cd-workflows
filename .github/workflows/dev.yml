@@ -20,7 +20,7 @@ on:
         required: true
 
 jobs:
-  release:
+  dev:
     runs-on: ubuntu-latest
     permissions:
       packages: write
@@ -47,7 +47,7 @@ jobs:
           DOCKERHUB_BASE=${{ inputs.ORGANIZATION_NAME }}/${{ inputs.IMAGE_NAME }}
           GHCR_BASE=ghcr.io/${{ inputs.ORGANIZATION_NAME }}/${{ inputs.IMAGE_NAME }}
           docker pull $DOCKERHUB_BASE:$VERSION
-          docker tag $DOCKERHUB_BASE:$VERSION $DOCKERHUB_BASE:latest
-          docker tag $DOCKERHUB_BASE:$VERSION $GHCR_BASE:latest
+          docker tag $DOCKERHUB_BASE:$VERSION $DOCKERHUB_BASE:dev
+          docker tag $DOCKERHUB_BASE:$VERSION $GHCR_BASE:dev
           docker push $GHCR_BASE:latest
           docker push $DOCKERHUB_BASE:latest
