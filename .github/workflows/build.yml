@@ -19,6 +19,10 @@ on:
         description: "Environment"
         required: false
         type: string
+      VERSION:
+        description: "Version"
+        required: false
+        type: string
     secrets:
       DOCKER_TOKEN:
         required: true
@@ -42,6 +46,8 @@ jobs:
       - name: Log version
         run: |
           echo "Publishing version ${{ needs.version.outputs.release_version }}"
+          echo "${{ inputs.ORGANIZATION_NAME }}"
+          echo "${{ inputs.VERSION }}"
 
       - name: Read version from package.json
         id: package-version
