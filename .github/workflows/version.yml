@@ -21,20 +21,6 @@ jobs:
         with:
           fetch-depth: 0
 
-      - name: Checkout repository
-        uses: actions/checkout@v4
-        with:
-          fetch-depth: 0
-
-      - name: Debug before fix
-        run: git remote -v
-
-      - name: Fix Git origin URL
-        run: git remote set-url origin "https://github.com/${{ github.repository }}.git"
-
-      - name: Debug after fix
-        run: git remote -v
-
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
