@@ -43,34 +43,29 @@ jobs:
       - name: Checkout Code
         uses: actions/checkout@v3
 
-      - name: Read version from package.json
+      - name: Set version
         id: package-version
         run: echo "VERSION=${{ inputs.VERSION }}" >> "$GITHUB_ENV"
 
-      - name: Log version
-        run: |
-          echo "${{ inputs.VERSION }}"
-          echo "$VERSION"
+      - name: Log in to Docker Hub
+        run: echo "${{ secrets.DOCKER_TOKEN }}" | docker login -u "${{ inputs.ORGANIZATION_NAME }}" --password-stdin
 
-#      - name: Log in to Docker Hub
-#        run: echo "${{ secrets.DOCKER_TOKEN }}" | docker login -u "${{ inputs.ORGANIZATION_NAME }}" --password-stdin
-#
-#      - name: Log in to GitHub Container Registry (GHCR)
-#        uses: docker/login-action@v3
-#        with:
-#          registry: ghcr.io
-#          username: ${{ github.actor }}
-#          password: ${{ secrets.GIT_HUB_TOKEN }}
-#
-#      - name: Build and Push Docker Image
-#        run: |
-#          DOCKERHUB_TAG=${{ inputs.ORGANIZATION_NAME }}/${{ inputs.IMAGE_NAME }}:$VERSION
-#          GHCR_TAG=ghcr.io/${{ inputs.ORGANIZATION_NAME }}/${{ inputs.IMAGE_NAME }}:$VERSION
-#          docker build . \
-#            --build-arg VITE_API_URL=${{ inputs.VITE_API_URL }} \
-#            --build-arg GPG_PRIVATE_KEY="${{ secrets.GPG_PRIVATE_KEY }}" \
-#            --build-arg GPG_PASSPHRASE="${{ secrets.GPG_PASSPHRASE }}" \
-#            --build-arg ENVIRONMENT=${{ github.ref_name == 'release' && 'production' || 'staging' }} \
-#            -t $DOCKERHUB_TAG -t $GHCR_TAG --pull
-#          docker push $GHCR_TAG
-#          docker push $DOCKERHUB_TAG
+      - name: Log in to GitHub Container Registry (GHCR)
+        uses: docker/login-action@v3
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GIT_HUB_TOKEN }}
+
+      - name: Build and Push Docker Image
+        run: |
+          DOCKERHUB_TAG=${{ inputs.ORGANIZATION_NAME }}/${{ inputs.IMAGE_NAME }}:$VERSION
+          GHCR_TAG=ghcr.io/${{ inputs.ORGANIZATION_NAME }}/${{ inputs.IMAGE_NAME }}:$VERSION
+          docker build . \
+            --build-arg VITE_API_URL=${{ inputs.VITE_API_URL }} \
+            --build-arg GPG_PRIVATE_KEY="${{ secrets.GPG_PRIVATE_KEY }}" \
+            --build-arg GPG_PASSPHRASE="${{ secrets.GPG_PASSPHRASE }}" \
+            --build-arg ENVIRONMENT=${{ github.ref_name == 'release' && 'production' || 'staging' }} \
+            -t $DOCKERHUB_TAG -t $GHCR_TAG --pull
+          docker push $GHCR_TAG
+          docker push $DOCKERHUB_TAG
