@@ -49,11 +49,6 @@ jobs:
       - name: Log in to Docker Hub
         run: echo "${{ secrets.DOCKER_TOKEN }}" | docker login -u "${{ inputs.ORGANIZATION_NAME }}" --password-stdin
 
-      - name: Debug version
-        run: |
-          echo "Inputs.VERSION = '${{ inputs.VERSION }}'"
-          echo "ENV VERSION = '$VERSION'"
-
       - name: Log in to GitHub Container Registry (GHCR)
         uses: docker/login-action@v3
         with:
