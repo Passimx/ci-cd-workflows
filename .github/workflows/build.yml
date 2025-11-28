@@ -72,8 +72,8 @@ jobs:
             --build-arg GPG_PRIVATE_KEY="${{ secrets.GPG_PRIVATE_KEY }}" \
             --build-arg GPG_PASSPHRASE="${{ secrets.GPG_PASSPHRASE }}" \
             --build-arg ENVIRONMENT=${{ github.ref_name == 'release' && 'production' || 'staging' }} \
-            -t DOCKERHUB_TAG -t GHCR_TAG -t DOCKERHUB_DEV_TAG -t GHCR_DEV_TAG --pull
+            -t $DOCKERHUB_TAG -t $GHCR_TAG -t $DOCKERHUB_DEV_TAG -t $GHCR_DEV_TAG --pull
           docker push $GHCR_TAG
           docker push $DOCKERHUB_TAG
-          docker push DOCKERHUB_DEV_TAG
-          docker push GHCR_DEV_TAG
+          docker push $DOCKERHUB_DEV_TAG
+          docker push $GHCR_DEV_TAG
