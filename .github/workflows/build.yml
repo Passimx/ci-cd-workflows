@@ -43,16 +43,15 @@ jobs:
       - name: Checkout Code
         uses: actions/checkout@v3
 
-      - name: Log version
-        run: |
-          echo "Publishing version ${{ needs.version.outputs.release_version }}"
-          echo "${{ inputs.ORGANIZATION_NAME }}"
-          echo "${{ inputs.VERSION }}"
-
       - name: Read version from package.json
         id: package-version
-        run: echo "VERSION=$(jq -r .version package.json)" >> "$GITHUB_ENV"
-#
+        run: echo "VERSION=${{ inputs.VERSION }}" >> "$GITHUB_ENV"
+
+      - name: Log version
+        run: |
+          echo "${{ inputs.VERSION }}"
+          echo "$VERSION"
+
 #      - name: Log in to Docker Hub
 #        run: echo "${{ secrets.DOCKER_TOKEN }}" | docker login -u "${{ inputs.ORGANIZATION_NAME }}" --password-stdin
 #
