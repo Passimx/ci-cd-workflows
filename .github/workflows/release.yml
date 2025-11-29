@@ -9,10 +9,6 @@ on:
       IMAGE_NAME:
         required: true
         type: string
-      VERSION:
-        description: "Version"
-        required: false
-        type: string
     secrets:
       DOCKER_TOKEN:
         required: true
@@ -29,9 +25,6 @@ jobs:
       - name: Checkout Code
         uses: actions/checkout@v3
 
-      - name: Set version
-        run: echo "VERSION=${{ inputs.VERSION }}" >> "$GITHUB_ENV"
-
       - name: Log in to Docker Hub
         run: echo "${{ secrets.DOCKER_TOKEN }}" | docker login -u "${{ inputs.ORGANIZATION_NAME }}" --password-stdin
 
@@ -46,8 +39,8 @@ jobs:
         run: |
           DOCKERHUB_BASE=${{ inputs.ORGANIZATION_NAME }}/${{ inputs.IMAGE_NAME }}
           GHCR_BASE=ghcr.io/${{ inputs.ORGANIZATION_NAME }}/${{ inputs.IMAGE_NAME }}
-          docker pull $DOCKERHUB_BASE:$VERSION
-          docker tag $DOCKERHUB_BASE:$VERSION $DOCKERHUB_BASE:latest
-          docker tag $DOCKERHUB_BASE:$VERSION $GHCR_BASE:latest
+          docker pull $DOCKERHUB_BASE:dev
+          docker tag $DOCKERHUB_BASE:dev $DOCKERHUB_BASE:latest
+          docker tag $DOCKERHUB_BASE:dev $GHCR_BASE:latest
           docker push $GHCR_BASE:latest
           docker push $DOCKERHUB_BASE:latest
