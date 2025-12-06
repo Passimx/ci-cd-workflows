@@ -64,6 +64,7 @@ jobs:
           GHCR_DEV_TAG=ghcr.io/${{ inputs.ORGANIZATION_NAME }}/${{ inputs.IMAGE_NAME }}:dev
           docker build . \
             --build-arg VITE_API_URL=${{ inputs.VITE_API_URL }} \
+            --build-arg VERSION=$VERSION \
             --build-arg GPG_PRIVATE_KEY="${{ secrets.GPG_PRIVATE_KEY }}" \
             --build-arg GPG_PASSPHRASE="${{ secrets.GPG_PASSPHRASE }}" \
             --build-arg ENVIRONMENT=${{ github.ref_name == 'release' && 'production' || 'staging' }} \
