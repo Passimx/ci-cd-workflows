@@ -15,6 +15,10 @@ on:
         description: "API url"
         required: false
         type: string
+      VITE_TG_BOT_LINK:
+        description: "telegram bot url"
+        required: false
+        type: string
       ENVIRONMENT:
         description: "Environment"
         required: false
@@ -69,6 +73,7 @@ jobs:
           GHCR_DEV_TAG=ghcr.io/${{ inputs.ORGANIZATION_NAME }}/${{ inputs.IMAGE_NAME }}:dev
           docker build . \
             --build-arg VITE_API_URL=${{ inputs.VITE_API_URL }} \
+            --build-arg VITE_TG_BOT_LINK=${{ inputs.VITE_TG_BOT_LINK }} \
             --build-arg VERSION=$VERSION \
             --build-arg GPG_PRIVATE_KEY="${{ secrets.GPG_PRIVATE_KEY }}" \
             --build-arg GPG_PASSPHRASE="${{ secrets.GPG_PASSPHRASE }}" \
