@@ -23,6 +23,10 @@ on:
         description: "notifications url"
         required: false
         type: string
+      VITE_PUBLIC_VAPID_KEY:
+        description: "public vapid key"
+        required: false
+        type: string
       ENVIRONMENT:
         description: "Environment"
         required: false
@@ -79,6 +83,7 @@ jobs:
             --build-arg VITE_API_URL=${{ inputs.VITE_API_URL }} \
             --build-arg VITE_TG_BOT_LINK=${{ inputs.VITE_TG_BOT_LINK }} \
             --build-arg VITE_NOTIFICATIONS_URL=${{ inputs.VITE_NOTIFICATIONS_URL }} \
+            --build-arg VITE_PUBLIC_VAPID_KEY=${{ inputs.VITE_PUBLIC_VAPID_KEY }} \
             --build-arg VERSION=$VERSION \
             --build-arg GPG_PRIVATE_KEY="${{ secrets.GPG_PRIVATE_KEY }}" \
             --build-arg GPG_PASSPHRASE="${{ secrets.GPG_PASSPHRASE }}" \
